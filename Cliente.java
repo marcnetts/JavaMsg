@@ -87,7 +87,7 @@ public class Cliente extends JFrame implements ActionListener {
 		do{
 			try{
 				mensagem = (String)entrada.readObject();
-				display.append("\nServidor:" + mensagem);
+				display.append("\nServidor: " + mensagem);
 				display.setCaretPosition(display.getText().length());
 			}catch(ClassNotFoundException classNotFoundException){
 				display.append("\nTipo de objeto desconhecido");

@@ -46,7 +46,7 @@ public class Servidor extends JFrame {
 	}
 	
 	private void esperaConexao() throws IOException {
-		display.setText("Esperando por conexão\n");
+		display.append("Esperando por conexão\n");
 		conexao = servidor.accept();
 		display.append("Conexão " + contador + " recebido de: " + conexao.getInetAddress().getHostName());
 	}
@@ -65,18 +65,19 @@ public class Servidor extends JFrame {
 		area.setEnabled(true);
 		
 		do {
-			try {
-				try{
-					mensagem = (String)entrada.readObject();
-					display.append("\nCliente " + contador + ": " + mensagem);
-					display.setCaretPosition(display.getText().length());}
-				catch(SocketException socketException) {display.append("\nFalha ao ler mensagem; Cliente pode ter desconectado."); throw new IOException();}	
-			}catch(ClassNotFoundException classNotFoundException) {display.append("\nTipo de objeto desconhecido");}
+			try{
+				mensagem = (String)entrada.readObject();
+				display.append("\nCliente " + contador + ": " + mensagem);
+				display.setCaretPosition(display.getText().length());}
+			catch(SocketException socketException) {
+				display.append("\nFalha ao ler mensagem; Cliente pode ter desconectado.");
+				mensagem = "Cliente terminou";}	
+			catch(ClassNotFoundException classNotFoundException) {display.append("\nTipo de objeto desconhecido");}
 		}while(!mensagem.equals("Cliente terminou"));
 	}
 
 	private void fechaConexao() throws IOException{
-		display.append("\nCliente" + contador + " terminou conexão");
+		display.append("\nCliente " + contador + " terminou conexão\n");
 		area.setEnabled(true);
 		saida.close();
 		entrada.close();
